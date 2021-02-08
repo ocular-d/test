@@ -1,21 +1,14 @@
 #!/usr/bin/env bash
 set -o pipefail
 
+NC='\033[0m' # No Color
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+
 #cd "$(dirname "$0")/.." || exit 1
 #echo "=> Linting documents at path $(pwd) as $(whoami)..."
 #echo
 ERRORCODE=0
-
-# Ensure that the CHANGELOG.md does not contain duplicate versions
-DUPLICATE_CHANGELOG_VERSIONS=$(grep --extended-regexp '^## .+' CHANGELOG.md | sed -E 's| \(.+\)||' | sort -r | uniq -d)
-echo '=> Checking for CHANGELOG.md duplicate entries...'
-echo
-if [ "${DUPLICATE_CHANGELOG_VERSIONS}" != "" ]
-then
-  echo '✖ ERROR: Duplicate versions in CHANGELOG.md:' >&2
-  echo "${DUPLICATE_CHANGELOG_VERSIONS}" >&2
-  ((ERRORCODE++))
-fi
 
 # Make sure no files in doc/ are executable
 EXEC_PERM_COUNT=$(find docs -type f -perm /111 | wc -l)
@@ -30,9 +23,15 @@ fi
 
 if [ $ERRORCODE -ne 0 ]
 then
-  echo "✖ ${ERRORCODE} lint test(s) failed. Review the log carefully to see full listing."
+  #echo "✖ ${ERRORCODE} lint test(s) failed. Review the log carefully to see full listing."
+  RESULT="✖ ${ERRORCODE} lint test(s) failed. Review the log carefully to see full listing."
+  echo -e "$RED Failed $RESULT: $NC"
+  echo ::set-output name=result::"$RESULT"
   exit 1
 else
-  echo "✔ Linting passed"
+  #echo "✔ Linting passed"
+  RESULT="✔ Linting passed"
+  echo -e "$GREEN $RESULT $NC"
+  echo ::set-output name=result::"$RESULT"
   exit 0
 fi
