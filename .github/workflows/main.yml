@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-        # make file runnable, might not be necessary
-        chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
-        # run script
-        "${GITHUB_WORKSPACE}/.github/script.sh"
+          # make file runnable, might not be necessary
+          chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
+          # run the script
+          "${GITHUB_WORKSPACE}/.github/script.sh"
