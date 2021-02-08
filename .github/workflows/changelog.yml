@@ -1,0 +1,23 @@
+name: Changelog Checks
+on: [push]
+
+jobs:
+  build:
+    name: Changelog1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Check Changelog
+        uses: Zomzog/changelog-checker@v1.0.0
+        with:
+          fileName: CHANGELOG.md
+          noChangelogLabel: my custom label # default `no changelog`
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  check2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/changelog.sh"
+          "${GITHUB_WORKSPACE}/.github/script.sh"
