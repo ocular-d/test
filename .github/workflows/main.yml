@@ -1,4 +1,4 @@
-name: Check for exec
+name: Check executables
 on: [push]
 
 jobs:
@@ -7,7 +7,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          # make file runnable, might not be necessary
           chmod +x "${GITHUB_WORKSPACE}/.github/script.sh"
-          # run the script
           "${GITHUB_WORKSPACE}/.github/script.sh"
